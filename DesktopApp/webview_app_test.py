@@ -2,6 +2,7 @@ import webview
 import os
 import sys
 from pynput import keyboard
+import socket
 
 window_is_active = True
 url = input("What is the IP? (r for recently visited, or q to quit) http://")
@@ -39,6 +40,17 @@ def on_shown():
     listener = keyboard.Listener(on_press=on_press)
     listener.daemon = True
     listener.start()
+
+def send_tcp_packet():
+    host = url
+
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+        try:
+            sock.connect((host, 5001))
+            packet_data = "Hello!".encode('utf-8')
+            sock.sendall(packet_data)
+        except ConnectionRefusedError:
+            print("Failed to conect")
 
 if url == "r":
     with open(filename, "r") as file:
@@ -95,7 +107,7 @@ window.events.restored += on_restored
 window.events.shown += on_shown
 
 webview.start()
-
+send_tcp_packet()
 
 
 """""
