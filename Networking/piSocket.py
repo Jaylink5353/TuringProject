@@ -10,7 +10,6 @@ class piSocketLib:
         while True:
             conn, addr = self.sock.accept()
             print(f"Connection from {addr}")
-
             with conn:
                 while True:
                     data = conn.recv(1024)
