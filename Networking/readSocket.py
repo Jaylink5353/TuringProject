@@ -12,7 +12,7 @@ server_thread.start()
 print("Networking Up")
 
 while True:
-    time.sleep(0.1)
+    time.sleep(0.001)
     try:
         command = cmd_queue.get_nowait()
         print(command)
