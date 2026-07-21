@@ -13,12 +13,9 @@ class commandParser:
             raw_byte = uart.read(1)
             char = chr(raw_byte[0])
             if char == '\n' or char == '\f\n':
-                # If the Pi sent "F:150\n", our buffer is now "F:150"
-                # print("Received complete command:", self.buffer)
                 self.packet = ""
                 self.packet = self.buffer
                 self.last_heard_time = running_time()
-                # 5. Clear the buffer so it's ready for the next command!
                 self.buffer = ""
             else:
                 self.buffer = self.buffer + char
