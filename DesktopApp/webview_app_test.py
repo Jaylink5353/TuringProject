@@ -3,7 +3,6 @@ import os
 import sys
 from pynput import keyboard
 import socket
-import threading
 import time
 
 window_is_active = True
@@ -34,12 +33,12 @@ def send_packet(data_string):
             client_socket = None
             init_socket()
 
-def log_to_file(text):
-    try:
-        with open(log_file, "a") as f:
-            f.write(text)
-    except IOError as e:
-        print(f"An error occured: {e}")
+#def log_to_file(text):
+#    try:
+#        with open(log_file, "a") as f:
+#            f.write(text)
+#    except IOError as e:
+#        print(f"An error occured: {e}")
 
 def on_press(key):
     global window_is_active
@@ -66,18 +65,17 @@ def on_shown():
     listener.daemon = True
     listener.start()
 
-
-def send_tcp_packet():
-    while True:
-        host = ip
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            try:
-                sock.connect((host, 5001))
-                packet_data = "Hello!".encode('utf-8')
-                sock.sendall(packet_data)
-            except ConnectionRefusedError:
-                print("Failed to conect")
-        time.sleep(0.1)
+#def send_tcp_packet():
+#    while True:
+#        host = ip
+#        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+#            try:
+#                sock.connect((host, 5001))
+#                packet_data = "Hello!".encode('utf-8')
+#                sock.sendall(packet_data)
+#            except ConnectionRefusedError:
+#                print("Failed to conect")
+#        time.sleep(0.1)
 
 if ip == "r":
     with open(filename, "r") as file:
@@ -126,15 +124,13 @@ else:
         with open("recently_visited.txt", "a") as file:
             file.write(url + "\n")
 
-window = webview.create_window(url, url + str(5000))
+window = webview.create_window(url, url + str(":5000"))
 
 init_socket()
 window.events.minimized += on_minimized
 window.events.restored += on_restored
 window.events.shown += on_shown
 
-#send_thread = threading.Thread(target=send_packet, daemon=True)
-#send_thread.start()
 webview.start()
 
 if client_socket:
