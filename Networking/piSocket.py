@@ -2,8 +2,9 @@ import socket
 
 class piSocketLib:
     def __init__(self, command_queue):
-        self.sock = socket.socket(socket.AF_INET, socket.SCOK_STREAM)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
         self.sock.bind(('0.0.0.0', 5001))
+        self.sock.listen()
         self.packet = ""
         self.command_queue = command_queue
     def listen(self):
@@ -19,11 +20,11 @@ class piSocketLib:
                         break
 
                     response = self.processPacket(data)
-                    self.packet = response
-                    self.sock.sendall(b"ACK")
+                    self.command_queue.put(response)
+                    conn.sendall(b"ACK")
 
     def processPacket(self, data):
-        raw_text = data.decode('utf-8)').strip()
+        raw_text = data.decode('utf-8').strip()
         return raw_text
     def returnPackets(self):
         return self.packet
