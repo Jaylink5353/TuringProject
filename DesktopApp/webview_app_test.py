@@ -45,6 +45,23 @@ def on_shown():
     listener.daemon = True
     listener.start()
 
+def init_socket():
+    global client_socket
+    try:
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((ip, 5001))
+    except Exception as e:
+        print("Connection failed")
+
+def send_packet(data_string):
+    global client_socket
+    if client_socket:
+        try:
+            client_socket.sendall(data_string.encode('utf-8'))
+        except Exception as e:
+            print("Packet send failed")
+            init_socket()
+
 def send_tcp_packet():
     while True:
         host = ip
@@ -57,7 +74,7 @@ def send_tcp_packet():
                 print("Failed to conect")
         time.sleep(0.1)
 
-if url == "r":
+if ip == "r":
     with open(filename, "r") as file:
         all_lines = [line.strip() for line in file if line.strip()]
     recent_lines = all_lines[-5:]
@@ -90,8 +107,6 @@ elif url == "q":
   sys.exit()  
 
 else:
-    url = (f"http://{url}")
-
     already_exists = False
 
     if os.path.exists(filename):
@@ -115,6 +130,9 @@ window.events.shown += on_shown
 send_thread = threading.Thread(target=send_tcp_packet, daemon=True)
 send_thread.start()
 webview.start()
+
+if client_socket:
+    client_socket.close()
 
 
 
