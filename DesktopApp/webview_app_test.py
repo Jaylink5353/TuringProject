@@ -13,38 +13,6 @@ filename = "recently_visited.txt"
 log_file = "keys.txt"
 
 
-def log_to_file(text):
-    try:
-        with open(log_file, "a") as f:
-            f.write(text)
-    except IOError as e:
-        print(f"An error occured: {e}")
-
-def on_press(key):
-    global window_is_active
-    if not window_is_active:
-        return
-    try:
-        key_char = key.char.lower()
-
-        if key_char in ['w', 'a', 's', 'd']:
-            log_to_file(key.char)
-    except AttributeError:
-        pass
-
-def on_minimized():
-    global window_is_active
-    window_is_active = False
-
-def on_restored():
-    global window_is_active
-    window_is_active = True
-
-def on_shown():
-    listener = keyboard.Listener(on_press=on_press)
-    listener.daemon = True
-    listener.start()
-
 def init_socket():
     global client_socket
     try:
@@ -61,6 +29,39 @@ def send_packet(data_string):
         except Exception as e:
             print("Packet send failed")
             init_socket()
+
+def log_to_file(text):
+    try:
+        with open(log_file, "a") as f:
+            f.write(text)
+    except IOError as e:
+        print(f"An error occured: {e}")
+
+def on_press(key):
+    global window_is_active
+    if not window_is_active:
+        return
+    try:
+        key_char = key.char.lower()
+
+        if key_char in ['w', 'a', 's', 'd']:
+            send_packet(key.char)
+    except AttributeError:
+        pass
+
+def on_minimized():
+    global window_is_active
+    window_is_active = False
+
+def on_restored():
+    global window_is_active
+    window_is_active = True
+
+def on_shown():
+    listener = keyboard.Listener(on_press=on_press)
+    listener.daemon = True
+    listener.start()
+
 
 def send_tcp_packet():
     while True:
