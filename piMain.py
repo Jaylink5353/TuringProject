@@ -4,6 +4,8 @@ import threading
 from Networking.piSocket import piSocketLib
 from Serial.piSerialLib import piSerialLib
 
+spd = 100
+
 cmd_queue = queue.Queue()
 
 socketServer = piSocketLib(command_queue=cmd_queue)
@@ -21,13 +23,15 @@ while True:
         command = cmd_queue.get_nowait()
         print(f"Processing incoming command: {command}")
         if command == "W":
-            #move forward
+           piSerialLib.sendCommand(command="F", speed=spd)
         elif command == "S":
-            # backward
+            piSerialLib.sendCommand(command="B", speed=spd)
         elif command == "A":
-            # left
+            piSerialLib.sendCommand(command="TL", speed=spd)
         elif command == "D":
-            #right
+            piSerialLib.sendCommand(command="TR", speed=spd)
+        elif command == "X":
+            piSerialLib.sendCommand(command="S", speed=0)
     except queue.Empty:
         pass
         
