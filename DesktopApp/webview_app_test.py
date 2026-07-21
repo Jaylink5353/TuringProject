@@ -2,11 +2,16 @@ import webview
 import os
 import sys
 from pynput import keyboard
+import socket
+import threading
+import time
 
 window_is_active = True
-url = input("What is the IP? (r for recently visited, or q to quit) http://")
+ip = input("What is the IP? (r for recently visited, or q to quit) http://")
+url = f"http://{ip}"
 filename = "recently_visited.txt"
 log_file = "keys.txt"
+
 
 def log_to_file(text):
     try:
@@ -39,6 +44,18 @@ def on_shown():
     listener = keyboard.Listener(on_press=on_press)
     listener.daemon = True
     listener.start()
+
+def send_tcp_packet():
+    while True:
+        host = ip
+        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+            try:
+                sock.connect((host, 5001))
+                packet_data = "Hello!".encode('utf-8')
+                sock.sendall(packet_data)
+            except ConnectionRefusedError:
+                print("Failed to conect")
+        time.sleep(0.1)
 
 if url == "r":
     with open(filename, "r") as file:
@@ -87,13 +104,16 @@ else:
         pass
     else:
         with open("recently_visited.txt", "a") as file:
-            file.write(url + "\n") 
+            file.write(url + "\n")
+
 window = webview.create_window(url, url)
 
 window.events.minimized += on_minimized
 window.events.restored += on_restored
 window.events.shown += on_shown
 
+send_thread = threading.Thread(target=send_tcp_packet, daemon=True)
+send_thread.start()
 webview.start()
 
 
