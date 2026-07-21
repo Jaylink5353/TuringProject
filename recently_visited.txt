@@ -1,7 +1,2 @@
 http://192.168.8.215
-http://http://r
-http://http://192.168.8.235
-http://http://192.168.8.215
-http://http://youtube.com
-http://r
-http://youtube.com
+http://1

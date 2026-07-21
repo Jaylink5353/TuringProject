@@ -7,6 +7,7 @@ import threading
 import time
 
 window_is_active = True
+client_socket = None
 ip = input("What is the IP? (r for recently visited, or q to quit) http://")
 url = f"http://{ip}"
 filename = "recently_visited.txt"
@@ -23,11 +24,14 @@ def init_socket():
 
 def send_packet(data_string):
     global client_socket
+    if client_socket is None:
+        init_socket()
     if client_socket:
         try:
             client_socket.sendall(data_string.encode('utf-8'))
         except Exception as e:
             print("Packet send failed")
+            client_socket = None
             init_socket()
 
 def log_to_file(text):
@@ -45,12 +49,12 @@ def on_press(key):
         key_char = key.char.lower()
 
         if key_char in ['w', 'a', 's', 'd']:
-            send_packet(key.char)
+            send_packet(str(key.char))
     except AttributeError:
         pass
 
 def on_minimized():
-    global window_is_active
+    global window_is_activer
     window_is_active = False
 
 def on_restored():
@@ -122,14 +126,15 @@ else:
         with open("recently_visited.txt", "a") as file:
             file.write(url + "\n")
 
-window = webview.create_window(url, url)
+window = webview.create_window(url, url + str(5000))
 
+init_socket()
 window.events.minimized += on_minimized
 window.events.restored += on_restored
 window.events.shown += on_shown
 
-send_thread = threading.Thread(target=send_tcp_packet, daemon=True)
-send_thread.start()
+#send_thread = threading.Thread(target=send_packet, daemon=True)
+#send_thread.start()
 webview.start()
 
 if client_socket:
