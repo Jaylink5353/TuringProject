@@ -5,7 +5,7 @@ class piSerialLib:
     def __init__(self):
         self.lastHeartbeatTime = time.time()
 
-        self.ser = serial.Serial('/dev/ttyACM0', 115200, timeout=0)
+        self.ser = serial.Serial('/dev/serial0', 115200, timeout=0)
 
     def sendCommand(self,command:str, speed:int):
         # for i in range(1):

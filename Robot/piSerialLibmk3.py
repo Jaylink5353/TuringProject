@@ -7,7 +7,7 @@ timeout_ms = 2000
 class microPiSerial:
     def __init__(self):
         self.uart = uart
-        self.uart.init(baudrate=BAUDRATE)
+        self.uart.init(baudrate=BAUDRATE, tx=pin5, rx=pin6)
         self.buffer = ""
         self.start_time = running_time()
         self.timeout_ms = timeout_ms
