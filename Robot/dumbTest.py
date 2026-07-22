@@ -1,11 +1,12 @@
 from microbit import *
-from piSerialLibmk2 import serialParserv2
+from piSerialLibmk3 import microPiSerial
 
-serial = serialParserv2()
-
-def packetHandle(cmd, speed):
-    serial.write("Command:", cmd, " Speed:", speed, "\n")
+serial = microPiSerial()
 
 while True:
-    serial.update(handler=packetHandle)
+    packet  = serial.readUart()
+    if packet is not None:
+        command, speed = packet
+        serial.write("Packet:{}:{};\n".format(command, speed))
+        serial.write("Command:{}. YAP YAP Packet:{}".format(command, speed))
     sleep(10)
