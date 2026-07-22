@@ -3,10 +3,12 @@ import time
 import threading
 from Networking.piSocket import piSocketLib
 from Serial.piSerialLib import piSerialLib
+from CamServer.camserver import camServer
 
 spd = 100
 
 cmd_queue = queue.Queue()
+camServer.run(host='0.0.0.0', port=5000)
 
 socketServer = piSocketLib(command_queue=cmd_queue)
 server_thread = threading.Thread(target=socketServer.listen, daemon=True)
