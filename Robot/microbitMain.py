@@ -1,10 +1,13 @@
 from microbit import *
 
 from piSerialLibmk3 import microPiSerial
-from keyes_mecanum_car_v2 import *
+# from keyes_mecanum_car_v2 import *
 
 serial = microPiSerial()
-car = Mecanum_Car_Driver_V2()
+# car = Mecanum_Car_Driver_V2()
+
+def stop():
+    return
 
 while True:
     packet = serial.readUart()
@@ -12,5 +15,5 @@ while True:
         command, speed = packet
         # put all commands here
     if packet is None:
-        if serial.checkHeartbeat() == false:
-            # stop function
+        if serial.checkHeartbeat() == False:
+            stop()
