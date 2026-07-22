@@ -16,7 +16,7 @@ print("Networking Up")
 serial_hw = piSerialLib()
 
 while True:
-    time.sleep(0.1)
+    time.sleep(0.01)
     serial_hw.checkHeartTime()
 
     try:
@@ -33,5 +33,6 @@ while True:
         elif command == "X":
             piSerialLib.sendCommand(command="S", speed=0)
     except queue.Empty:
+        piSerialLib.sendCommand(command="S", speed="0")
         pass
         

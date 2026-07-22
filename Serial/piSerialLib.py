@@ -9,7 +9,7 @@ class piSerialLib:
 
     def sendCommand(self,command:str, speed:int):
         for i in range(5):
-            packet = f"{command}:{speed}\n"
+            packet = f"{command}:{speed};\n"
             self.ser.reset_input_buffer()
             self.ser.write(packet.encode('utf-8'))
             print(f"Packet Sent: {packet}")
@@ -25,7 +25,7 @@ class piSerialLib:
         while (time.time() - startTime) < 0.1:
             raw_data = self.ser.read(self.ser.in_waiting)
             incoming_text = raw_data.decode('utf-8', errors='ignore')
-            if "ACK\n" in incoming_text:
+            if "ACK;" in incoming_text:
                 print("ACK Recived")
                 return True
 
