@@ -8,14 +8,14 @@ class piSerialLib:
         self.ser = serial.Serial('/dev/ttyACM0', 115200, timeout=0)
 
     def sendCommand(self,command:str, speed:int):
-        for i in range(2):
-            packet = f"{command}:{speed};\n"
-            self.ser.reset_input_buffer()
-            self.ser.write(packet.encode('utf-8'))
-            print(f"Packet Sent: {packet}")
-            ack = self.waitForAck()
-            if ack == True:
-                break
+        # for i in range(1):
+        packet = f"{command}:{speed};\n"
+        self.ser.reset_input_buffer()
+        self.ser.write(packet.encode('utf-8'))
+        print(f"Packet Sent: {packet}")
+        ack = self.waitForAck()
+        # if ack == True:
+            # break
 
 
 
