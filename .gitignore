@@ -1,3 +1,7 @@
 .idea/
 .venv/
+DesktopApp/keys.txt
+DesktopApp/recently_visited.txt
+keys.txt
+recently_visited.txt
 Networking/__pycache__/*
