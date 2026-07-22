@@ -58,6 +58,12 @@ while True:
             stop()
         if command == "B":
             move_backward(speed)
+        if command == "TL":
+            turn_left(speed)
+        if command == "TR":
+            turn_right(speed)
+
+
     # if packet is None:
         # if serial.checkHeartbeat() == False:
             # stop()
