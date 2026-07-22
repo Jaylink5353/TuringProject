@@ -16,6 +16,7 @@ print("Networking Up")
 serial_hw = piSerialLib()
 
 stop = True
+moving = False
 while True:
     time.sleep(0.01)
     serial_hw.checkHeartTime()
@@ -25,17 +26,25 @@ while True:
         print(f"Processing incoming command: {command}")
         if command == "w":
            serial_hw.sendCommand(command="F", speed=spd)
+           moving = True
         elif command == "s":
             serial_hw.sendCommand(command="B", speed=spd)
+            moving = True
         elif command == "a":
             serial_hw.sendCommand(command="TL", speed=spd)
+            moving = True
         elif command == "d":
             serial_hw.sendCommand(command="TR", speed=spd)
+            moving = True
         elif command == "x":
             serial_hw.sendCommand(command="S", speed=0)
+            moving = True
     except queue.Empty:
         if stop == False:
-            serial_hw.sendCommand(command="S", speed="0")
+            serial_hw.sendCommand(command="S", speed=0)
             stop = True
+        if moving == True:
+            serial_hw.sendCommand(command="S", speed=0)
+            moving = False
         pass
         
