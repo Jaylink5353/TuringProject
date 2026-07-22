@@ -23,15 +23,15 @@ while True:
     try:
         command = cmd_queue.get_nowait()
         print(f"Processing incoming command: {command}")
-        if command == "W":
+        if command == "w":
            serial_hw.sendCommand(command="F", speed=spd)
-        elif command == "S":
+        elif command == "s":
             serial_hw.sendCommand(command="B", speed=spd)
-        elif command == "A":
+        elif command == "a":
             serial_hw.sendCommand(command="TL", speed=spd)
-        elif command == "D":
+        elif command == "d":
             serial_hw.sendCommand(command="TR", speed=spd)
-        elif command == "X":
+        elif command == "x":
             serial_hw.sendCommand(command="S", speed=0)
     except queue.Empty:
         if stop == False:
