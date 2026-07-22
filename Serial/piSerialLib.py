@@ -22,7 +22,7 @@ class piSerialLib:
     def waitForAck(self):
         startTime:float = time.time()
 
-        while (time.time() - startTime) < 1:
+        while (time.time() - startTime) < 0.5:
             raw_data = self.ser.read(self.ser.in_waiting)
             incoming_text = raw_data.decode('utf-8', errors='ignore')
             if "ACK;" in incoming_text:
