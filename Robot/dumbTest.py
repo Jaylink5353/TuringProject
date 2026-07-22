@@ -10,3 +10,6 @@ while True:
         serial.write("Packet:{}:{};\n".format(command, speed))
         serial.write("Command:{}. YAP YAP Packet:{}".format(command, speed))
     sleep(10)
+    if packet is None:
+        if serial.checkHeartbeat() == False:
+            serial.write("Heartbeat Timeout!!")
