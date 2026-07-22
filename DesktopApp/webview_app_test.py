@@ -3,22 +3,42 @@ import os
 import sys
 from pynput import keyboard
 import socket
-import threading
 import time
 
 window_is_active = True
+client_socket = None
 ip = input("What is the IP? (r for recently visited, or q to quit) http://")
 url = f"http://{ip}"
 filename = "recently_visited.txt"
 log_file = "keys.txt"
 
 
-def log_to_file(text):
+def init_socket():
+    global client_socket
     try:
-        with open(log_file, "a") as f:
-            f.write(text)
-    except IOError as e:
-        print(f"An error occured: {e}")
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+        client_socket.connect((ip, 5001))
+    except Exception as e:
+        print("Connection failed")
+
+def send_packet(data_string):
+    global client_socket
+    if client_socket is None:
+        init_socket()
+    if client_socket:
+        try:
+            client_socket.sendall(data_string.encode('utf-8'))
+        except Exception as e:
+            print("Packet send failed")
+            client_socket = None
+            init_socket()
+
+#def log_to_file(text):
+#    try:
+#        with open(log_file, "a") as f:
+#            f.write(text)
+#    except IOError as e:
+#        print(f"An error occured: {e}")
 
 def on_press(key):
     global window_is_active
@@ -28,12 +48,12 @@ def on_press(key):
         key_char = key.char.lower()
 
         if key_char in ['w', 'a', 's', 'd']:
-            log_to_file(key.char)
+            send_packet(str(key.char))
     except AttributeError:
         pass
 
 def on_minimized():
-    global window_is_active
+    global window_is_activer
     window_is_active = False
 
 def on_restored():
@@ -45,19 +65,19 @@ def on_shown():
     listener.daemon = True
     listener.start()
 
-def send_tcp_packet():
-    while True:
-        host = ip
-        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
-            try:
-                sock.connect((host, 5001))
-                packet_data = "Hello!".encode('utf-8')
-                sock.sendall(packet_data)
-            except ConnectionRefusedError:
-                print("Failed to conect")
-        time.sleep(0.1)
+#def send_tcp_packet():
+#    while True:
+#        host = ip
+#        with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as sock:
+#            try:
+#                sock.connect((host, 5001))
+#                packet_data = "Hello!".encode('utf-8')
+#                sock.sendall(packet_data)
+#            except ConnectionRefusedError:
+#                print("Failed to conect")
+#        time.sleep(0.1)
 
-if url == "r":
+if ip == "r":
     with open(filename, "r") as file:
         all_lines = [line.strip() for line in file if line.strip()]
     recent_lines = all_lines[-5:]
@@ -90,8 +110,6 @@ elif url == "q":
   sys.exit()  
 
 else:
-    url = (f"http://{url}")
-
     already_exists = False
 
     if os.path.exists(filename):
@@ -106,15 +124,17 @@ else:
         with open("recently_visited.txt", "a") as file:
             file.write(url + "\n")
 
-window = webview.create_window(url, url)
+window = webview.create_window(url, url + str(":5000"))
 
+init_socket()
 window.events.minimized += on_minimized
 window.events.restored += on_restored
 window.events.shown += on_shown
 
-send_thread = threading.Thread(target=send_tcp_packet, daemon=True)
-send_thread.start()
 webview.start()
+
+if client_socket:
+    client_socket.close()
 
 
 
