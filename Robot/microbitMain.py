@@ -54,10 +54,10 @@ while True:
         command, speed = packet
         if command == "F":
             move_forward(speed)
-        if command == "X":
+        if command == "S":
             stop()
         if command == "B":
             move_backward(speed)
-    if packet is None:
-        if serial.checkHeartbeat() == False:
-            stop()
+    # if packet is None:
+        # if serial.checkHeartbeat() == False:
+            # stop()
