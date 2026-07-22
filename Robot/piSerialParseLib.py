@@ -8,17 +8,15 @@ class commandParser:
         self.packet = ""
         self.last_heard_time = 0
         uart.init(baudrate=115200, bits=8, parity=None, stop=1, tx=pin5, rx=pin6)  #
+        uart.write("init")
     def read(self):
+        print("reading line")
         if uart.any():
-            raw_byte = uart.read(1)
-            char = chr(raw_byte[0])
-            if char == '\n' or char == '\f\n':
-                self.packet = ""
-                self.packet = self.buffer
-                self.last_heard_time = running_time()
-                self.buffer = ""
-            else:
-                self.buffer = self.buffer + char
+            raw_data = uart.readline()
+            text = raw_data.decode('utf-8').strip()
+            self.last_heard_time = running_time()
+            self.packet = text
+            uart.write(text)
 
     def sendAck(self):
         sleep(10)

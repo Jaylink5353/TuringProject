@@ -4,9 +4,10 @@ from piSerialParseLib import *
 
 correctionFactorR = 0
 correctionFactorL = 0
+parser = commandParser(timeout_ms=1500)
 mecanumCar = Mecanum_Car_Driver_V2()
 
-parser = commandParser(timeout_ms=1500)
+
 moving:bool = False
 
 
@@ -40,6 +41,7 @@ while True:
         if moving is True:
             stop()
             moving = False
+
     result = parser.parseCommand()
 
     if result is not None:
