@@ -2,14 +2,15 @@ from microbit import *
 
 BAUDRATE = 115200
 
-    # --- Mode 1 (default): USB serial, works with MobaXterm/minicom right now.
-
+timeout_ms = 10000
 
 class microPiSerial:
     def __init__(self):
         self.uart = uart
         self.uart.init(baudrate=BAUDRATE)
         self.buffer = ""
+        self.start_time = running_time()
+        self.timeout_ms = timeout_ms
 
     def parse_packet(self, packet):
         """
@@ -24,13 +25,16 @@ class microPiSerial:
 
         if not (1 <= len(id_str) <= 2):
             return None, None
-
         try:
             value = int(value_str)
         except ValueError:
             return None, None
 
-        return id_str, value
+        if id_str is "H" and value == 0:
+            self.handleHeartbeat()
+            return None, None
+        else:
+            return id_str, value
 
 
     def handle_packet(self, packet_id, value):
@@ -48,6 +52,10 @@ class microPiSerial:
     def handle_bad_packet(self, raw_buffer):
         return None
 
+    def handleHeartbeat(self):
+        self.last_heard_time = running_time()
+        self.sendAck()
+        return
 
     def readUart(self):
         if uart.any():
@@ -78,3 +86,8 @@ class microPiSerial:
 
             else:
                 self.buffer += char
+    def checkHeartbeat(self):
+        if (running_time() - self.start_time) > timeout_ms:
+            return False
+        else:
+            return True
