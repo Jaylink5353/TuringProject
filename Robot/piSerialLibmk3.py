@@ -2,7 +2,7 @@ from microbit import *
 
 BAUDRATE = 115200
 
-timeout_ms = 10000
+timeout_ms = 2000
 
 class microPiSerial:
     def __init__(self):
