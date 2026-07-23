@@ -8,16 +8,8 @@ class CamServer:
         self.cap = cv2.VideoCapture(0)
         self._register_routes()
 
-    class CamServer:
-        def __init__(self):
-            self.app = Flask(__name__)
-            self.cap = cv2.VideoCapture(0)
-            self._register_routes()
-
-        # Add this method to your class
-        def run(self, host="0.0.0.0", port=5000, **kwargs):
-            self.app.run(host=host, port=port, **kwargs)
-
+    def run(self, host="0.0.0.0", port=5000, **kwargs):
+        self.app.run(host=host, port=port, **kwargs)
 
     def _register_routes(self):
         self.app.add_url_rule("/", view_func=self.index)
