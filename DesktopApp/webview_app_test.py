@@ -5,7 +5,7 @@ from pynput import keyboard
 import socket
 import time
 
-window_is_active = True
+window_is_active = Trues
 client_socket = None
 ip = input("What is the IP? (r for recently visited, or q to quit) http://")
 url = f"http://{ip}"
