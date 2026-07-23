@@ -8,7 +8,9 @@ from CamServer.camserver import CamServer
 spd = 100
 
 cmd_queue = queue.Queue()
-CamServer.run(host='0.0.0.0', port=5000)
+
+camsrv = CamServer()
+camsrv.run(host='0.0.0.0', port=5000)
 
 socketServer = piSocketLib(command_queue=cmd_queue)
 server_thread = threading.Thread(target=socketServer.listen, daemon=True)
