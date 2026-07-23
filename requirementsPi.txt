@@ -1,4 +1,0 @@
-pyserial
-pynput
-pseudo-microbit
-pywebview
