@@ -26,6 +26,7 @@ def on_press(key):
         print(f"{k} down")
         if window_is_active:
             send_packet(f"{k}")
+            print("Packet Sent: {k}")
 
 
 def on_release(key):
@@ -39,6 +40,7 @@ def on_release(key):
         print(f"{k} up")
         if window_is_active:
             send_packet("x")
+            print("Packet Sent:x")
 
 
 def init_socket():
