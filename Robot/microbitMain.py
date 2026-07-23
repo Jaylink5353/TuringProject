@@ -62,8 +62,14 @@ while True:
             turn_left(speed)
         if command == "TR":
             turn_right(speed)
+"""
+    if button_a.is_pressed():
+        stop()
+    if button_b.is_pressed():
+        stop()
 
 
     # if packet is None:
         # if serial.checkHeartbeat() == False:
             # stop()
+"""
