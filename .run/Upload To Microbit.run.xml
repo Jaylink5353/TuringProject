@@ -1,0 +1,6 @@
+<component name="ProjectRunConfigurationManager">
+  <configuration default="false" name="Upload To Microbit" type="PowerShellRunType" factoryName="PowerShell" scriptUrl="C:\Users\Jaymes\PycharmProjects\TuringProject\Robot\uploadToMicrobit.ps1" scriptParameters="-Path &quot;$FilePath$&quot;" workingDirectory="C:\Users\Jaymes\PycharmProjects\TuringProject\Robot" executablePath="$PROJECT_DIR$/../../../../Windows/System32/WindowsPowerShell/v1.0/powershell.exe">
+    <envs />
+    <method v="2" />
+  </configuration>
+</component>
