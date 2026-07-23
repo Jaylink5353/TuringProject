@@ -15,7 +15,7 @@ server_thread = threading.Thread(target=socketServer.listen, daemon=True)
 server_thread.start()
 print("Networking Up")
 
-serial_hw = piSerialLib()1
+serial_hw = piSerialLib()
 
 stop = True
 moving = False
@@ -35,7 +35,7 @@ while True:
         elif command == "a":
             serial_hw.sendCommand(command="TL", speed=spd)
             moving = True
-    elif command == "d":
+        elif command == "d":
             serial_hw.sendCommand(command="TR", speed=spd)
             moving = True
         elif command == "x":
