@@ -5,7 +5,7 @@ from Networking.piSocket import piSocketLib
 from Serial.piSerialLib import piSerialLib
 from CamServer.camserver import CamServer
 
-spd = 100
+spd = 95
 
 cmd_queue = queue.Queue()
 
