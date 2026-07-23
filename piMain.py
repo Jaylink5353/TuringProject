@@ -9,13 +9,20 @@ spd = 100
 
 cmd_queue = queue.Queue()
 
-camsrv = CamServer()
-camsrv.run(host='0.0.0.0', port=5000)
-
 socketServer = piSocketLib(command_queue=cmd_queue)
 server_thread = threading.Thread(target=socketServer.listen, daemon=True)
 server_thread.start()
 print("Networking Up")
+
+camsrv = CamServer()
+
+cam_thread = threading.Thread(
+    target=camsrv.run,
+    kwargs={'host': '0.0.0.0', 'port': 5000},
+    daemon=True
+)
+cam_thread.start()
+print("CamServer Up")
 
 serial_hw = piSerialLib()
 
