@@ -13,13 +13,13 @@ class piSerialLib:
             CmdRange = 3
         else:
             CmdRange = 1
-        for i in range (CmdRange):
+        for i in range(CmdRange):
             packet = f"{command}:{speed};\n"
             self.ser.reset_input_buffer()
             self.ser.write(packet.encode('utf-8'))
             print(f"Packet Sent: {packet}")
             ack = self.waitForAck()
-            if ack == True:
+            if ack == True and CmdRange < 3:
                 break
 
 
