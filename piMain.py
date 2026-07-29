@@ -47,6 +47,12 @@ while True:
         elif command == "d":
             serial_hw.sendCommand(command="TR", speed=spd)
             moving = True
+        elif command == "q":
+            serial_hw.sendCommand(command="SL", speed=spd)
+            moving = True
+        elif command == "e":
+            serial_hw.sendCommand(command="SR", speed=spd)
+            moving = True
         elif command == "x":
             serial_hw.sendCommand(command="S", speed=0)
             moving = False
