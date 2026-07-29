@@ -55,14 +55,18 @@ while True:
         command, speed = packet
         if command == "F":
             move_forward(speed)
-        if command == "S":
+        elif command == "S":
             stop()
-        if command == "B":
+        elif command == "B":
             move_backward(speed)
-        if command == "TL":
+        elif command == "TL":
             turn_left(speed)
-        if command == "TR":
+        elif command == "TR":
             turn_right(speed)
+        elif command == "SL":
+            move_left(speed)
+        elif command == "SR":
+            move_right(speed)
 """
     if button_a.is_pressed():
         stop()

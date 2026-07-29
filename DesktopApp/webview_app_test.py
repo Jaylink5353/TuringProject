@@ -21,12 +21,12 @@ def on_press(key):
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd') and k not in pressed_keys:
+    if k in ('w', 'a', 's', 'd', 'q', 'e') and k not in pressed_keys:
         pressed_keys.add(k)
         print(f"{k} down")
         if window_is_active:
             send_packet(f"{k}")
-            print("Packet Sent: {k}")
+            print(f"Packet Sent: {k}")
 
 
 def on_release(key):
@@ -35,7 +35,7 @@ def on_release(key):
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd'):
+    if k in ('w', 'a', 's', 'd', 'q', 'e'):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
