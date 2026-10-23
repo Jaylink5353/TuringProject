@@ -2,8 +2,8 @@ import socket
 
 class piSocketLib:
     def __init__(self, command_queue):
-        self.sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        self.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        self.sock = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        #self.sock.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         self.sock.bind(('0.0.0.0', 5001))
         self.sock.listen()
         self.packet = ""

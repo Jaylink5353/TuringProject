@@ -46,8 +46,8 @@ def on_release(key):
 def init_socket():
     global client_socket
     try:
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        # client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
         client_socket.connect((ip, 5001))
     except Exception as e:
         print("Connection failed")
