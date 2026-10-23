@@ -18,9 +18,9 @@ class piSerialLib:
             self.ser.reset_input_buffer()
             self.ser.write(packet.encode('utf-8'))
             print(f"Packet Sent: {packet}")
-            ack = self.waitForAck()
-            if ack == True and CmdRange < 3:
-                break
+            # ack = self.`waitForAck`()
+            # if ack == True and CmdRange < 3:
+            #     break
 
 
 
