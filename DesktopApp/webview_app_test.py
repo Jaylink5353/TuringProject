@@ -47,9 +47,11 @@ def init_socket():
     global client_socket
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
-        # client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, 1)
-        client_socket.connect((ip, 5001))
-    except Exception as e:
+        client_socket.sendto(b"PING", (ip, 5001))
+        reply, _ = client_socket.recvfrom(1024)
+        print("UDP test passed")
+    except socket.timeout:
+        print("No Reply!")
         print("Connection failed")
 
 
@@ -59,7 +61,7 @@ def send_packet(data_string):
         init_socket()
     if client_socket:
         try:
-            client_socket.sendall(data_string.encode('utf-8'))
+            client_socket.sendto(data_string.encode("utf-8"), (ip, 5001))
         except Exception as e:
             print("Packet send failed")
             client_socket = None
