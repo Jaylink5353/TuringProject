@@ -35,7 +35,7 @@ def on_release(key):
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd', 'q', 'e'):
+    if k in ('w', 'a', 's', 'd', 'q', 'e','j','k','l'):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
