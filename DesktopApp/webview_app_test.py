@@ -21,7 +21,7 @@ def on_press(key):
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd', 'q', 'e') and k not in pressed_keys:
+    if k in ('w', 'a', 's', 'd', 'q', 'e', 'j','k','l') and k not in pressed_keys:
         pressed_keys.add(k)
         print(f"{k} down")
         if window_is_active:

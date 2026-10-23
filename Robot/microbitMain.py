@@ -60,6 +60,7 @@ def turn_right(speed):
     car.Motor_Upper_R(0, speed-turnoffset)
     car.Motor_Lower_R(0, speed-turnoffset)
 
+
 while True:
     packet = serial.readUart()
     if packet is not None:

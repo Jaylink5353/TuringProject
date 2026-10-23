@@ -6,3 +6,6 @@
 - [ ] Safley handle microbit not plugged in on pi
 - [ ] Package Desktop App Better
 - [ ] Allow Microbit Updates from Raspi (Bash Script)
+- [ ] Read Distance Sensor Inputs (2 Way)
+- [x] Use servo to aim distance sensor and camera
+- [ ] Whip up a hardware setup guide or script
