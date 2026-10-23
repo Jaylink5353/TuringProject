@@ -5,8 +5,19 @@ from keyes_mecanum_car_v2 import *
 
 serial = microPiSerial()
 car = Mecanum_Car_Driver_V2()
+servo = Mecanum_Car_Driver_V2.Servo(pin14)
 turnoffset = 40
 offset = -2
+
+def servo_left():
+    servo.write_angle(150)
+
+def servo_right():
+    servo.write_angle(30)
+
+def center_servo():
+    servo.write_angle(90)
+
 def move_forward(speed):
     car.Motor_Upper_L(1, speed+offset)
     car.Motor_Lower_L(1, speed+offset)
@@ -67,6 +78,15 @@ while True:
             move_left(speed)
         elif command == "SR":
             move_right(speed)
+
+        #Jaylink5353 Servo Command Code
+        elif command == "CL":
+            servo_left()
+        elif command == "CR":
+            servo_right()
+        elif command == "CS":
+            center_servo()
+
 """
     if button_a.is_pressed():
         stop()

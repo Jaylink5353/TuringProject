@@ -56,6 +56,15 @@ while True:
         elif command == "x":
             serial_hw.sendCommand(command="S", speed=0)
             moving = False
+        elif command == "j":
+            serial_hw.sendCommand(command="CL",speed=0)
+            moving = False
+        elif command == "k":
+            serial_hw.sendCommand(command="CS",speed=0)
+            moving = False
+        elif command == "l":
+            serial_hw.sendCommand(command="CR",speed=0)
+            moving = False
         else:
             print("Already Moving!!")
     except queue.Empty:
