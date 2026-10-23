@@ -30,7 +30,7 @@ stop = True
 moving = False
 while True:
     time.sleep(0.01)
-    serial_hw.checkHeartTime()
+    #serial_hw.checkHeartTime()
 
     try:
         command = cmd_queue.get_nowait()
