@@ -1,9 +1,13 @@
-import webview
 import os
 import sys
 from pynput import keyboard
 import socket
 import time
+
+if sys.platform.startswith("linux"):
+    os.environ["GDK_BACKEND"] = "x11"
+
+import webview
 
 window_is_active = True
 client_socket = None
@@ -13,6 +17,7 @@ filename = "recently_visited.txt"
 log_file = "keys.txt"
 pressed_keys = set()
 key_listener = None  # keep a reference so we only start it once
+
 
 
 def on_press(key):
@@ -47,12 +52,14 @@ def init_socket():
     global client_socket
     try:
         client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        client_socket.settimeout(10)
         client_socket.sendto(b"PING", (ip, 5001))
         reply, _ = client_socket.recvfrom(1024)
         print("UDP test passed")
     except socket.timeout:
         print("No Reply!")
         print("Connection failed")
+        sys.exit(1)
 
 
 def send_packet(data_string):
@@ -147,7 +154,7 @@ window.events.minimized += on_minimized
 window.events.restored += on_restored
 window.events.shown += on_shown
 
-webview.start()
+webview.start(gui="gtk" if sys.platform.startswith("linux") else None)
 
 if client_socket:
     client_socket.close()
