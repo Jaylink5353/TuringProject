@@ -60,6 +60,38 @@ def turn_right(speed):
     car.Motor_Upper_R(0, speed-turnoffset)
     car.Motor_Lower_R(0, speed-turnoffset)
 
+def move_forward_turn_left(speed, turn_speed):
+    left_speed = max(0, speed - turn_speed + offset)
+    right_speed = min(100, speed + turn_speed)
+    car.Motor_Upper_L(1, left_speed)
+    car.Motor_Lower_L(1, left_speed)
+    car.Motor_Upper_R(1, right_speed)
+    car.Motor_Lower_R(1, right_speed)
+
+def move_forward_turn_right(speed, turn_speed):
+    left_speed = min(100, speed + turn_speed + offset)
+    right_speed = max(0, speed - turn_speed)
+    car.Motor_Upper_L(1, left_speed)
+    car.Motor_Lower_L(1, left_speed)
+    car.Motor_Upper_R(1, right_speed)
+    car.Motor_Lower_R(1, right_speed)
+
+def move_backward_turn_left(speed, turn_speed):
+    left_speed = max(0, speed - turn_speed + offset)
+    right_speed = min(100, speed + turn_speed)
+    car.Motor_Upper_L(0, left_speed)
+    car.Motor_Lower_L(0, left_speed)
+    car.Motor_Upper_R(0, right_speed)
+    car.Motor_Lower_R(0, right_speed)
+
+def move_backward_turn_right(speed, turn_speed):
+    left_speed = min(100, speed + turn_speed + offset)
+    right_speed = max(0, speed - turn_speed)
+    car.Motor_Upper_L(0, left_speed)
+    car.Motor_Lower_L(0, left_speed)
+    car.Motor_Upper_R(0, right_speed)
+    car.Motor_Lower_R(0, right_speed)
+
 def move_forward_right(speed):
     car.Motor_Upper_L(1, speed + offset)
     car.Motor_Lower_L(0, 0)
@@ -99,6 +131,14 @@ while True:
             turn_left(speed)
         elif command == "TR":
             turn_right(speed)
+        elif command == "FTL":
+            move_forward_turn_left(speed, turnoffset)
+        elif command == "FTR":
+            move_forward_turn_right(speed, turnoffset)
+        elif command == "BTL":
+            move_backward_turn_left(speed, turnoffset)
+        elif command == "BTR":
+            move_backward_turn_right(speed, turnoffset)
         elif command == "SL":
             move_left(speed)
         elif command == "SR":
