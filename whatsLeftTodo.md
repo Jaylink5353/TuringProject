@@ -9,4 +9,4 @@
 - [ ] Read Distance Sensor Inputs (2 Way)
 - [x] Use servo to aim distance sensor and camera
 - [ ] Whip up a hardware setup guide or script
-- [ ] Add In-between direction states and allow 2 keys pressed at once on the keylogger
+- [x] Add In-between direction states and allow 2 keys pressed at once on the keylogger
