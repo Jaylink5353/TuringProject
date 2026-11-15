@@ -131,13 +131,13 @@ while True:
             turn_left(speed)
         elif command == "TR":
             turn_right(speed)
-        elif command == "FTL":
+        elif command == "RL":
             move_forward_turn_left(speed, turnoffset)
-        elif command == "FTR":
+        elif command == "RR":
             move_forward_turn_right(speed, turnoffset)
-        elif command == "BTL":
+        elif command == "YL":
             move_backward_turn_left(speed, turnoffset)
-        elif command == "BTR":
+        elif command == "YR":
             move_backward_turn_right(speed, turnoffset)
         elif command == "SL":
             move_left(speed)

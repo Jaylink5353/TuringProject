@@ -68,16 +68,16 @@ while True:
 
         #turn + f or b
         elif command == "aw" or command == "wa":
-            serial_hw.sendCommand(command="FTL", speed=spd)
+            serial_hw.sendCommand(command="RL", speed=spd)
             moving = True
         elif command == "wd" or command == "dw":
-            serial_hw.sendCommand(command="FTR", speed=spd)
+            serial_hw.sendCommand(command="RR", speed=spd)
             moving = True
         elif command == "sa" or command == "as":
-            serial_hw.sendCommand(command="BTL", speed=spd)
+            serial_hw.sendCommand(command="YL", speed=spd)
             moving = True
         elif command == "sd" or command == "ds":
-            serial_hw.sendCommand(command="BTR", speed=spd)
+            serial_hw.sendCommand(command="YR", speed=spd)
             moving = True
 
         #Diagonal
