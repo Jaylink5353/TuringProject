@@ -1,5 +1,7 @@
-# New Camera System
+# MediaMTX Setup
 
-Working on this atm, going to use ffmpeg + mediamtx to stream the video feed. Should be less latency
+You need the linux-arm64 binary from the MediaMTX github releases page
 
-Will fallback to old one if it doesn't work
+"LINK HERE"
+
+Config file and other script are here 
