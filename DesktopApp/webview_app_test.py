@@ -32,10 +32,10 @@ def on_press(key):
         pressed_keys.add(k)
         print(f"{k} down")
         if window_is_active:
-            print(str(pressed_keys))
             if len(pressed_keys) == 1:
-                send_packet(f"{k}")
-                print(f"Packet Sent: {k}")
+                a, = pressed_keys
+                send_packet(f"{a}")
+                print(f"Packet Sent: {a}")
             elif len(pressed_keys) == 2:
                 send_packet("x")
                 a,b = pressed_keys
@@ -54,11 +54,13 @@ def on_release(key):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
-            print(str(pressed_keys))
             if len(pressed_keys) >= 1:
+                print("Sent: X")
                 send_packet("x")
                 if len(pressed_keys) == 1:
-                    send_packet(f"{k}")
+                    a, = pressed_keys
+                    send_packet(f"{a}")
+                    print(f"Sent: {a}")
             else:
                 send_packet("x")
                 print("Packet Sent:x")
