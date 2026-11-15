@@ -32,6 +32,8 @@ def on_press(key):
         if window_is_active:
             send_packet(f"{k}")
             print(f"Packet Sent: {k}")
+            if k in ('j', 'k', 'l'):
+                pressed_keys.remove(k)
 
 
 def on_release(key):
