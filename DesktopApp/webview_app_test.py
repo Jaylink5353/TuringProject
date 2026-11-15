@@ -37,6 +37,7 @@ def on_press(key):
                 send_packet(f"{k}")
                 print(f"Packet Sent: {k}")
             elif len(pressed_keys) == 2:
+                send_packet("x")
                 a,b = pressed_keys
                 print(f"{a}{b}")
                 send_packet(f"{a}{b}")

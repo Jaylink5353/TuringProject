@@ -115,6 +115,12 @@ while True:
         #Diagonal States
         elif command == "FL":
             move_forward_left(speed)
+        elif command == "FR":
+            move_forward_right(speed)
+        elif command == "BL":
+            move_backward_left(speed)
+        elif command == "BR":
+            move_backward_right(speed)
 
 """
     if button_a.is_pressed():

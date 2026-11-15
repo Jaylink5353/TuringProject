@@ -68,6 +68,15 @@ while True:
         elif command == "aw" or command == "wa":
             serial_hw.sendCommand(command="FL", speed=spd)
             moving = True
+        elif command == "wd" or command == "dw":
+            serial_hw.sendCommand(command="FR", speed=spd)
+            moving = True
+        elif command == "sa" or command == "as":
+            serial_hw.sendCommand(command="BL", speed=spd)
+            moving = True
+        elif command == "sd" or command == "ds":
+            serial_hw.sendCommand(command="BR", speed=spd)
+            moving = True
         else:
             print("Already Moving!!")
     except queue.Empty:
