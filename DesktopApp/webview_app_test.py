@@ -39,7 +39,7 @@ def on_press(key):
             elif len(pressed_keys) == 2:
                 send_packet("x")
                 a,b = pressed_keys
-                print(f"{a}{b}")
+                print(f"Packet Sent:{a}{b}")
                 send_packet(f"{a}{b}")
             elif len(pressed_keys) >=3:
                 print("3 keys, not supported yet")
@@ -50,14 +50,18 @@ def on_release(key):
         k = key.char.lower()
     except AttributeError:
         return
-
     if k in ('w', 'a', 's', 'd', 'q', 'e', 'j', 'k', 'l'):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
             print(str(pressed_keys))
-            send_packet("x")
-            print("Packet Sent:x")
+            if len(pressed_keys) >= 1:
+                send_packet("x")
+                if len(pressed_keys) == 1:
+                    send_packet(f"{k}")
+            else:
+                send_packet("x")
+                print("Packet Sent:x")
 
 
 def init_socket():
