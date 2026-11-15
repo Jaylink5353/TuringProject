@@ -36,13 +36,13 @@ def stop():
     car.Motor_Upper_R(0, 0)
     car.Motor_Lower_R(0, 0)
 
-def move_left(speed):
+def move_right(speed):
     car.Motor_Upper_L(1, speed+offset)
     car.Motor_Lower_L(0, speed+offset)
     car.Motor_Upper_R(0, speed)
     car.Motor_Lower_R(1, speed)
 
-def move_right(speed):
+def move_left(speed):
     car.Motor_Upper_L(0, speed+offset)
     car.Motor_Lower_L(1, speed+offset)
     car.Motor_Upper_R(1, speed)
@@ -60,25 +60,25 @@ def turn_right(speed):
     car.Motor_Upper_R(0, speed-turnoffset)
     car.Motor_Lower_R(0, speed-turnoffset)
 
-def move_forward_left(speed):
+def move_forward_right(speed):
     car.Motor_Upper_L(1, speed + offset)
     car.Motor_Lower_L(0, 0)
     car.Motor_Upper_R(0, 0)
     car.Motor_Lower_R(1, speed)
 
-def move_forward_right(speed):
+def move_forward_left(speed):
     car.Motor_Upper_L(0, 0)
     car.Motor_Lower_L(1, speed + offset)
     car.Motor_Upper_R(1, speed)
     car.Motor_Lower_R(0, 0)
 
-def move_backward_left(speed):
+def move_backward_right(speed):
     car.Motor_Upper_L(0, 0)
     car.Motor_Lower_L(0, speed + offset)
     car.Motor_Upper_R(0, speed)
     car.Motor_Lower_R(0, 0)
 
-def move_backward_right(speed):
+def move_backward_left(speed):
     car.Motor_Upper_L(0, speed + offset)
     car.Motor_Lower_L(0, 0)
     car.Motor_Upper_R(0, 0)
