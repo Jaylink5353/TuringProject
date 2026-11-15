@@ -60,6 +60,30 @@ def turn_right(speed):
     car.Motor_Upper_R(0, speed-turnoffset)
     car.Motor_Lower_R(0, speed-turnoffset)
 
+def move_forward_left(speed):
+    car.Motor_Upper_L(1, speed + offset)
+    car.Motor_Lower_L(0, 0)
+    car.Motor_Upper_R(0, 0)
+    car.Motor_Lower_R(1, speed)
+
+def move_forward_right(speed):
+    car.Motor_Upper_L(0, 0)
+    car.Motor_Lower_L(1, speed + offset)
+    car.Motor_Upper_R(1, speed)
+    car.Motor_Lower_R(0, 0)
+
+def move_backward_left(speed):
+    car.Motor_Upper_L(0, 0)
+    car.Motor_Lower_L(0, speed + offset)
+    car.Motor_Upper_R(0, speed)
+    car.Motor_Lower_R(0, 0)
+
+def move_backward_right(speed):
+    car.Motor_Upper_L(0, speed + offset)
+    car.Motor_Lower_L(0, 0)
+    car.Motor_Upper_R(0, 0)
+    car.Motor_Lower_R(0, speed)
+
 
 while True:
     packet = serial.readUart()
@@ -87,6 +111,10 @@ while True:
             servo_right()
         elif command == "CS":
             center_servo()
+
+        #Diagonal States
+        elif command == "FL":
+            move_forward_left(speed)
 
 """
     if button_a.is_pressed():

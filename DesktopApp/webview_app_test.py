@@ -20,6 +20,8 @@ key_listener = None  # keep a reference so we only start it once
 
 
 
+
+
 def on_press(key):
     try:
         k = key.char.lower()
@@ -30,10 +32,16 @@ def on_press(key):
         pressed_keys.add(k)
         print(f"{k} down")
         if window_is_active:
-            send_packet(f"{k}")
-            print(f"Packet Sent: {k}")
-            if k in ('j', 'k', 'l'):
-                pressed_keys.remove(k)
+            print(str(pressed_keys))
+            if len(pressed_keys) == 1:
+                send_packet(f"{k}")
+                print(f"Packet Sent: {k}")
+            elif len(pressed_keys) == 2:
+                a,b = pressed_keys
+                print(f"{a}{b}")
+                send_packet(f"{a}{b}")
+            elif len(pressed_keys) >=3:
+                print("3 keys, not supported yet")
 
 
 def on_release(key):
@@ -42,10 +50,11 @@ def on_release(key):
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd', 'q', 'e'):
+    if k in ('w', 'a', 's', 'd', 'q', 'e', 'j', 'k', 'l'):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
+            print(str(pressed_keys))
             send_packet("x")
             print("Packet Sent:x")
 
