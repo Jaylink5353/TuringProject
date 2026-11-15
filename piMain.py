@@ -65,7 +65,7 @@ while True:
         elif command == "l":
             serial_hw.sendCommand(command="CR",speed=0)
             moving = False
-        elif command == "wa" or command == "aw":
+        elif command == "aw" or command == "wa":
             serial_hw.sendCommand(command="FL", speed=spd)
             moving = True
         else:
