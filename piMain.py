@@ -5,7 +5,7 @@ from Networking.piSocket import piSocketLib
 from Serial.piSerialLib import piSerialLib
 from CamServer.camserver import CamServer
 
-spd = 100
+spd = 95
 
 cmd_queue = queue.Queue()
 
@@ -30,7 +30,7 @@ stop = True
 moving = False
 while True:
     time.sleep(0.01)
-    serial_hw.checkHeartTime()
+    #serial_hw.checkHeartTime()
 
     try:
         command = cmd_queue.get_nowait()
@@ -47,8 +47,23 @@ while True:
         elif command == "d":
             serial_hw.sendCommand(command="TR", speed=spd)
             moving = True
+        elif command == "q":
+            serial_hw.sendCommand(command="SL", speed=spd)
+            moving = True
+        elif command == "e":
+            serial_hw.sendCommand(command="SR", speed=spd)
+            moving = True
         elif command == "x":
             serial_hw.sendCommand(command="S", speed=0)
+            moving = False
+        elif command == "j":
+            serial_hw.sendCommand(command="CL",speed=0)
+            moving = False
+        elif command == "k":
+            serial_hw.sendCommand(command="CS",speed=0)
+            moving = False
+        elif command == "l":
+            serial_hw.sendCommand(command="CR",speed=0)
             moving = False
         else:
             print("Already Moving!!")

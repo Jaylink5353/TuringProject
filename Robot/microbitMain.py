@@ -5,16 +5,28 @@ from keyes_mecanum_car_v2 import *
 
 serial = microPiSerial()
 car = Mecanum_Car_Driver_V2()
+servo = Mecanum_Car_Driver_V2.Servo(pin14)
+turnoffset = 40
+offset = -2
+
+def servo_left():
+    servo.write_angle(150)
+
+def servo_right():
+    servo.write_angle(30)
+
+def center_servo():
+    servo.write_angle(90)
 
 def move_forward(speed):
-    car.Motor_Upper_L(1, speed)
-    car.Motor_Lower_L(1, speed)
+    car.Motor_Upper_L(1, speed+offset)
+    car.Motor_Lower_L(1, speed+offset)
     car.Motor_Upper_R(1, speed)
     car.Motor_Lower_R(1, speed)
 
 def move_backward(speed):
-    car.Motor_Upper_L(0, speed)
-    car.Motor_Lower_L(0, speed)
+    car.Motor_Upper_L(0, speed+offset)
+    car.Motor_Lower_L(0, speed+offset)
     car.Motor_Upper_R(0, speed)
     car.Motor_Lower_R(0, speed)
 
@@ -25,28 +37,29 @@ def stop():
     car.Motor_Lower_R(0, 0)
 
 def move_left(speed):
-    car.Motor_Upper_L(1, speed)
-    car.Motor_Lower_L(0, speed)
+    car.Motor_Upper_L(1, speed+offset)
+    car.Motor_Lower_L(0, speed+offset)
     car.Motor_Upper_R(0, speed)
     car.Motor_Lower_R(1, speed)
 
 def move_right(speed):
-    car.Motor_Upper_L(0, speed)
-    car.Motor_Lower_L(1, speed)
+    car.Motor_Upper_L(0, speed+offset)
+    car.Motor_Lower_L(1, speed+offset)
     car.Motor_Upper_R(1, speed)
     car.Motor_Lower_R(0, speed)
 
 def turn_left(speed):
-    car.Motor_Upper_L(0, 0)
-    car.Motor_Lower_L(0, 0)
-    car.Motor_Upper_R(1, speed)
-    car.Motor_Lower_R(1, speed)
+    car.Motor_Upper_L(0, speed-turnoffset)
+    car.Motor_Lower_L(0, speed-turnoffset)
+    car.Motor_Upper_R(1, speed-turnoffset)
+    car.Motor_Lower_R(1, speed-turnoffset)
 
 def turn_right(speed):
-    car.Motor_Upper_L(1, speed)
-    car.Motor_Lower_L(1, speed)
-    car.Motor_Upper_R(0, 0)
-    car.Motor_Lower_R(0, 0)
+    car.Motor_Upper_L(1, speed-turnoffset)
+    car.Motor_Lower_L(1, speed-turnoffset)
+    car.Motor_Upper_R(0, speed-turnoffset)
+    car.Motor_Lower_R(0, speed-turnoffset)
+
 
 while True:
     packet = serial.readUart()
@@ -54,14 +67,27 @@ while True:
         command, speed = packet
         if command == "F":
             move_forward(speed)
-        if command == "S":
+        elif command == "S":
             stop()
-        if command == "B":
+        elif command == "B":
             move_backward(speed)
-        if command == "TL":
+        elif command == "TL":
             turn_left(speed)
-        if command == "TR":
+        elif command == "TR":
             turn_right(speed)
+        elif command == "SL":
+            move_left(speed)
+        elif command == "SR":
+            move_right(speed)
+
+        #Jaylink5353 Servo Command Code
+        elif command == "CL":
+            servo_left()
+        elif command == "CR":
+            servo_right()
+        elif command == "CS":
+            center_servo()
+
 """
     if button_a.is_pressed():
         stop()

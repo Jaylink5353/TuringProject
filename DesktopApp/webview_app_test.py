@@ -1,11 +1,15 @@
-import webview
 import os
 import sys
 from pynput import keyboard
 import socket
 import time
 
-window_is_active = Trues
+if sys.platform.startswith("linux"):
+    os.environ["GDK_BACKEND"] = "x11"
+
+import webview
+
+window_is_active = True
 client_socket = None
 ip = input("What is the IP? (r for recently visited, or q to quit) http://")
 url = f"http://{ip}"
@@ -15,18 +19,19 @@ pressed_keys = set()
 key_listener = None  # keep a reference so we only start it once
 
 
+
 def on_press(key):
     try:
         k = key.char.lower()
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd') and k not in pressed_keys:
+    if k in ('w', 'a', 's', 'd', 'q', 'e', 'j','k','l') and k not in pressed_keys:
         pressed_keys.add(k)
         print(f"{k} down")
         if window_is_active:
             send_packet(f"{k}")
-            print("Packet Sent: {k}")
+            print(f"Packet Sent: {k}")
 
 
 def on_release(key):
@@ -35,7 +40,7 @@ def on_release(key):
     except AttributeError:
         return
 
-    if k in ('w', 'a', 's', 'd'):
+    if k in ('w', 'a', 's', 'd', 'q', 'e'):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
@@ -46,10 +51,15 @@ def on_release(key):
 def init_socket():
     global client_socket
     try:
-        client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-        client_socket.connect((ip, 5001))
-    except Exception as e:
+        client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
+        client_socket.settimeout(10)
+        client_socket.sendto(b"PING", (ip, 5001))
+        reply, _ = client_socket.recvfrom(1024)
+        print("UDP test passed")
+    except socket.timeout:
+        print("No Reply!")
         print("Connection failed")
+        sys.exit(1)
 
 
 def send_packet(data_string):
@@ -58,7 +68,7 @@ def send_packet(data_string):
         init_socket()
     if client_socket:
         try:
-            client_socket.sendall(data_string.encode('utf-8'))
+            client_socket.sendto(data_string.encode("utf-8"), (ip, 5001))
         except Exception as e:
             print("Packet send failed")
             client_socket = None
@@ -144,7 +154,7 @@ window.events.minimized += on_minimized
 window.events.restored += on_restored
 window.events.shown += on_shown
 
-webview.start()
+webview.start(gui="gtk" if sys.platform.startswith("linux") else None)
 
 if client_socket:
     client_socket.close()
