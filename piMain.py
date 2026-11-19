@@ -65,6 +65,34 @@ while True:
         elif command == "l":
             serial_hw.sendCommand(command="CR",speed=0)
             moving = False
+
+        #turn + f or b
+        elif command == "aw" or command == "wa":
+            serial_hw.sendCommand(command="RL", speed=spd)
+            moving = True
+        elif command == "wd" or command == "dw":
+            serial_hw.sendCommand(command="RR", speed=spd)
+            moving = True
+        elif command == "sa" or command == "as":
+            serial_hw.sendCommand(command="YL", speed=spd)
+            moving = True
+        elif command == "sd" or command == "ds":
+            serial_hw.sendCommand(command="YR", speed=spd)
+            moving = True
+
+        #Diagonal
+        elif command == "wq" or command == "qw":
+            serial_hw.sendCommand(command="FL", speed=spd)
+            moving = True
+        elif command == "we" or command == "ew":
+            serial_hw.sendCommand(command="FR", speed=spd)
+            moving = True
+        elif command == "sq" or command == "qs":
+            serial_hw.sendCommand(command="BL", speed=spd)
+            moving = True
+        elif command == "se" or command == "es":
+            serial_hw.sendCommand(command="BR", speed=spd)
+            moving = True
         else:
             print("Already Moving!!")
     except queue.Empty:

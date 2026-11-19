@@ -20,6 +20,8 @@ key_listener = None  # keep a reference so we only start it once
 
 
 
+
+
 def on_press(key):
     try:
         k = key.char.lower()
@@ -30,8 +32,17 @@ def on_press(key):
         pressed_keys.add(k)
         print(f"{k} down")
         if window_is_active:
-            send_packet(f"{k}")
-            print(f"Packet Sent: {k}")
+            if len(pressed_keys) == 1:
+                a, = pressed_keys
+                send_packet(f"{a}")
+                print(f"Packet Sent: {a}")
+            elif len(pressed_keys) == 2:
+                send_packet("x")
+                a,b = pressed_keys
+                print(f"Packet Sent:{a}{b}")
+                send_packet(f"{a}{b}")
+            elif len(pressed_keys) >=3:
+                print("3 keys, not supported yet")
 
 
 def on_release(key):
@@ -39,13 +50,20 @@ def on_release(key):
         k = key.char.lower()
     except AttributeError:
         return
-
-    if k in ('w', 'a', 's', 'd', 'q', 'e'):
+    if k in ('w', 'a', 's', 'd', 'q', 'e', 'j', 'k', 'l'):
         pressed_keys.discard(k)
         print(f"{k} up")
         if window_is_active:
-            send_packet("x")
-            print("Packet Sent:x")
+            if len(pressed_keys) >= 1:
+                print("Sent: X")
+                send_packet("x")
+                if len(pressed_keys) == 1:
+                    a, = pressed_keys
+                    send_packet(f"{a}")
+                    print(f"Sent: {a}")
+            else:
+                send_packet("x")
+                print("Packet Sent:x")
 
 
 def init_socket():

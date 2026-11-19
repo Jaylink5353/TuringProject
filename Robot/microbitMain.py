@@ -36,13 +36,13 @@ def stop():
     car.Motor_Upper_R(0, 0)
     car.Motor_Lower_R(0, 0)
 
-def move_left(speed):
+def move_right(speed):
     car.Motor_Upper_L(1, speed+offset)
     car.Motor_Lower_L(0, speed+offset)
     car.Motor_Upper_R(0, speed)
     car.Motor_Lower_R(1, speed)
 
-def move_right(speed):
+def move_left(speed):
     car.Motor_Upper_L(0, speed+offset)
     car.Motor_Lower_L(1, speed+offset)
     car.Motor_Upper_R(1, speed)
@@ -60,6 +60,62 @@ def turn_right(speed):
     car.Motor_Upper_R(0, speed-turnoffset)
     car.Motor_Lower_R(0, speed-turnoffset)
 
+def move_forward_turn_left(speed, turn_speed):
+    left_speed = max(0, speed - turn_speed + offset)
+    right_speed = min(100, speed + turn_speed)
+    car.Motor_Upper_L(1, left_speed)
+    car.Motor_Lower_L(1, left_speed)
+    car.Motor_Upper_R(1, right_speed)
+    car.Motor_Lower_R(1, right_speed)
+
+def move_forward_turn_right(speed, turn_speed):
+    left_speed = min(100, speed + turn_speed + offset)
+    right_speed = max(0, speed - turn_speed)
+    car.Motor_Upper_L(1, left_speed)
+    car.Motor_Lower_L(1, left_speed)
+    car.Motor_Upper_R(1, right_speed)
+    car.Motor_Lower_R(1, right_speed)
+
+def move_backward_turn_left(speed, turn_speed):
+    left_speed = max(0, speed - turn_speed + offset)
+    right_speed = min(100, speed + turn_speed)
+    car.Motor_Upper_L(0, left_speed)
+    car.Motor_Lower_L(0, left_speed)
+    car.Motor_Upper_R(0, right_speed)
+    car.Motor_Lower_R(0, right_speed)
+
+def move_backward_turn_right(speed, turn_speed):
+    left_speed = min(100, speed + turn_speed + offset)
+    right_speed = max(0, speed - turn_speed)
+    car.Motor_Upper_L(0, left_speed)
+    car.Motor_Lower_L(0, left_speed)
+    car.Motor_Upper_R(0, right_speed)
+    car.Motor_Lower_R(0, right_speed)
+
+def move_forward_right(speed):
+    car.Motor_Upper_L(1, speed + offset)
+    car.Motor_Lower_L(0, 0)
+    car.Motor_Upper_R(0, 0)
+    car.Motor_Lower_R(1, speed)
+
+def move_forward_left(speed):
+    car.Motor_Upper_L(0, 0)
+    car.Motor_Lower_L(1, speed + offset)
+    car.Motor_Upper_R(1, speed)
+    car.Motor_Lower_R(0, 0)
+
+def move_backward_right(speed):
+    car.Motor_Upper_L(0, 0)
+    car.Motor_Lower_L(0, speed + offset)
+    car.Motor_Upper_R(0, speed)
+    car.Motor_Lower_R(0, 0)
+
+def move_backward_left(speed):
+    car.Motor_Upper_L(0, speed + offset)
+    car.Motor_Lower_L(0, 0)
+    car.Motor_Upper_R(0, 0)
+    car.Motor_Lower_R(0, speed)
+
 
 while True:
     packet = serial.readUart()
@@ -75,6 +131,14 @@ while True:
             turn_left(speed)
         elif command == "TR":
             turn_right(speed)
+        elif command == "RL":
+            move_forward_turn_left(speed, turnoffset)
+        elif command == "RR":
+            move_forward_turn_right(speed, turnoffset)
+        elif command == "YL":
+            move_backward_turn_left(speed, turnoffset)
+        elif command == "YR":
+            move_backward_turn_right(speed, turnoffset)
         elif command == "SL":
             move_left(speed)
         elif command == "SR":
@@ -87,6 +151,16 @@ while True:
             servo_right()
         elif command == "CS":
             center_servo()
+
+        #Diagonal States
+        elif command == "FL":
+            move_forward_left(speed)
+        elif command == "FR":
+            move_forward_right(speed)
+        elif command == "BL":
+            move_backward_left(speed)
+        elif command == "BR":
+            move_backward_right(speed)
 
 """
     if button_a.is_pressed():
